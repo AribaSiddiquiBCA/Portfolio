@@ -1,0 +1,153 @@
+<html>
+    <head>
+        <title>
+            Portfolio
+        </title>
+        <style>
+            :root {
+  --dark-green: #5f6f52;
+  --light-green: #a9b388;
+  --cream: #fefae0;
+  --text-dark: #2b2b2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+}
+.hero {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  padding: 60px;
+  background: var(--cream);
+}
+
+.hero h1 {
+  font-size: 96px;
+  line-height: 0.9;
+  margin: 0;
+  color: var(--dark-green);
+}
+
+.hero h1 span {
+  display: block;
+}
+
+.name {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.desc {
+  max-width: 400px;
+  font-size: 14px;
+}
+
+.hero-placeholder {
+  
+}
+.who {
+  background: var(--light-green);
+  padding: 60px;
+  position: relative;
+}
+
+.who h2 {
+  font-size: 80px;
+  margin: 0;
+  color: var(--dark-green);
+}
+
+.who-box {
+  background: var(--dark-green);
+  color: var(--cream);
+  padding: 20px;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+
+.bring {
+  background: var(--dark-green);
+  color: var(--cream);
+  padding: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bring-text {
+  max-width: 400px;
+  margin-top: 30px
+}
+
+
+.skills {
+  background: var(--dark-green);
+  padding: 80px 60px;
+}
+
+.skills h2 {
+  font-size: 96px;
+  margin: 0;
+  color: var(--cream);
+}
+
+        </style>
+    </head>
+    <body>
+        <!--HERO-->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>
+                    <span>PORT</span>
+                    <span>FOLIO</span>
+                </h1>
+
+                <p class="name">Ariba Siddiqui</p>
+                <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt ut labore.</p>
+            </div>
+
+            <div class="hero-placeholder">
+
+            </div>
+        </section>
+
+        <!--ABOUT-->
+        <section class="who">
+            <h2>WHO I AM</h2>
+
+            <div class="who-box">
+             <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Ut enim ad minim veniam, quis nostrud exercitation.
+             </p>
+            </div>
+
+            <div class="who-placeholder"></div>
+        </section>
+          <section class="bring">
+    <div class="bring-text">
+      <h3>What I Bring to the Table</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt.
+      </p>
+    </div>
+
+    <div class="bring-placeholder"></div>
+  </section>
+
+  <!-- PERSONAL SKILLS -->
+  <section class="skills">
+    <h2>PERSONAL SKILLS</h2>
+  </section>
+    </body>
+</html>
