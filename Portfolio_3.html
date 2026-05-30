@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ariba — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy:   #212b42;
+      --cream:  #EEEBDA;
+      --blush:  #e5b8ad;
+      --parchment: #f2ebcf;
+      --navy-light: #2e3d5a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--cream);
+      color: var(--navy);
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 12px 36px;
+      background: var(--parchment);
+      border: 1px solid rgba(33,43,66,0.25);
+      border-radius: 999px;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: var(--navy);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.7;
+      transition: opacity 0.25s;
+    }
+
+    .navbar a:hover,
+    .navbar a.active { opacity: 1; }
+
+    .navbar a.active {
+      border-bottom: 1px solid var(--navy);
+      padding-bottom: 2px;
+    }
+
+    /* ── HERO ── */
+    #home {
+      height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle dot grid */
+    #home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(238,235,218,0.08) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .hero-inner {
+      position: relative;
+      text-align: center;
+    }
+
+    .hero-frame {
+      display: inline-block;
+      border: 1px solid rgba(229,184,173,0.45);
+      border-radius: 48px;
+      padding: 52px 80px 44px;
+    }
+
+    .hero-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--blush);
+      margin-bottom: 16px;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 6px;
+      line-height: 1;
+    }
+
+    .hero-sub {
+      margin-top: 18px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(238,235,218,0.55);
+      letter-spacing: 1px;
+      min-height: 1.8rem;
+    }
+
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--blush);
+      margin: 24px auto 0;
+      opacity: 0.6;
+    }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.35;
+      animation: bob 2.2s ease-in-out infinite;
+    }
+
+    .scroll-hint span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .scroll-hint svg { color: var(--cream); }
+
+    @keyframes bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SHARED SECTION ── */
+    section:not(#home) {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 24px;
+    }
+
+    #about  { background: var(--cream); }
+    #works  { background: var(--parchment); }
+    #skills { background: var(--cream); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── ABOUT CARD ── */
+    .about-card {
+      max-width: 580px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .photo-ring {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--blush), var(--parchment));
+      flex-shrink: 0;
+    }
+
+    .photo-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--cream);
+    }
+
+    .about-text {
+      font-size: 1.35rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--navy);
+    }
+
+    .about-text strong {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.45rem;
+    }
+
+    .about-text em {
+      color: #8a5e57;
+      font-style: italic;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-wrap {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: var(--blush);
+      margin-bottom: 10px;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 40px;
+      line-height: 1.1;
+    }
+
+    /* ── WORKS LIST ── */
+    .works-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .work-item {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(33,43,66,0.1);
+      transition: padding-left 0.3s ease;
+      cursor: default;
+    }
+
+    .work-item:first-child { border-top: 1px solid rgba(33,43,66,0.1); }
+
+    .work-item:hover { padding-left: 10px; }
+
+    .work-num {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: var(--blush);
+      font-weight: 300;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .work-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .work-tag {
+      margin-left: auto;
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(33,43,66,0.4);
+      font-weight: 300;
+    }
+
+    /* ── SKILLS GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .skill-pill {
+      background: var(--navy);
+      color: var(--cream);
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .skill-pill:hover {
+      background: var(--navy-light);
+      transform: translateY(-2px);
+    }
+
+    .skill-pill .pill-sub {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(238,235,218,0.5);
+      margin-top: 4px;
+    }
+
+    .skill-pill.accent {
+      background: var(--blush);
+      color: var(--navy);
+    }
+    .skill-pill.accent .pill-sub { color: rgba(33,43,66,0.55); }
+    .skill-pill.accent:hover { background: #dba89b; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(238,235,218,0.3);
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#works">Works</a>
+    <a href="#skills">Skills</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-inner">
+      <div class="hero-frame">
+        <p class="hero-label">Portfolio</p>
+        <h1 class="hero-name">ARIBA</h1>
+        <p class="hero-sub" id="typing-target"></p>
+        <div class="hero-divider"></div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <svg width="14" height="20" viewBox="0 0 14 20" fill="none" stroke="currentColor" stroke-width="1.4">
+        <rect x="1" y="1" width="12" height="18" rx="6"/>
+        <line x1="7" y1="5" x2="7" y2="9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-card reveal">
+      <div class="photo-ring">
+        <div class="photo-placeholder">A</div>
+      </div>
+      <p class="about-text">
+        Hi there! I'm <strong>Ariba</strong> —<br>
+        a <em>First Year BCA student</em><br>
+        exploring web development and design<br>
+        through clean layouts and thoughtful code.
+      </p>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="section-wrap reveal">
+      <p class="section-eyebrow">Selected</p>
+      <h2 class="section-heading">Works</h2>
+      <div class="works-list">
+        <div class="work-item">
+          <span class="work-num">01</span>
+          <span class="work-title">Personal Portfolio Website</span>
+          <span class="work-tag">HTML / CSS</span>
+        </div>
+        <div class="work-item">
+          <span class="work-num">02</span>
+          <span class="work-title">Static HTML & CSS Pages</span>
+          <span class="work-tag">Layout</span>
+        </div>
+        <div class="work-item">
+          <span class="work-num">03</span>
+          <span class="work-title">Mini JavaScript Interactions</span>
+          <span class="work-tag">JS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-wrap reveal">
+      <p class="section-eyebrow">Toolkit</p>
+      <h2 class="section-heading">Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-pill">
+          HTML · CSS
+          <span class="pill-sub">Markup & Styling</span>
+        </div>
+        <div class="skill-pill accent">
+          Bootstrap
+          <span class="pill-sub">UI Framework</span>
+        </div>
+        <div class="skill-pill accent">
+          JavaScript
+          <span class="pill-sub">Basic Interactions</span>
+        </div>
+        <div class="skill-pill">
+          React.js
+          <span class="pill-sub">Component UI</span>
+        </div>
+        <div class="skill-pill">
+          Node.js
+          <span class="pill-sub">Backend & Runtime</span>
+        </div>
+        <div class="skill-pill accent">
+          Blender
+          <span class="pill-sub">3D Modeling & Design</span>
+        </div>
+        <div class="skill-pill" style="grid-column: span 2;">
+          UI Design
+          <span class="pill-sub">Typography · Layout · Visual Thinking</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Ariba &nbsp;·&nbsp; Built with care
+  </footer>
+
+  <script>
+    /* typing effect */
+    const phrases = ["Web Developer", "UI Designer", "BCA Student"];
+    let pIdx = 0, cIdx = 0, deleting = false;
+    const el = document.getElementById("typing-target");
+
+    function type() {
+      const word = phrases[pIdx];
+      if (!deleting) {
+        el.textContent = word.slice(0, ++cIdx);
+        if (cIdx === word.length) { deleting = true; setTimeout(type, 1600); return; }
+      } else {
+        el.textContent = word.slice(0, --cIdx);
+        if (cIdx === 0) { deleting = false; pIdx = (pIdx + 1) % phrases.length; }
+      }
+      setTimeout(type, deleting ? 60 : 100);
+    }
+    type();
+
+    /* scroll reveal */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+    /* active nav */
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".navbar a");
+
+    const navObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove("active"));
+          const active = document.querySelector(`.navbar a[href="#${e.target.id}"]`);
+          if (active) active.classList.add("active");
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+
+    sections.forEach(s => navObs.observe(s));
+  </script>
+</body>
+</html>
